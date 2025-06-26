@@ -7,14 +7,14 @@ WORKDIR /src
 # Copy package.json and lockfile first
 COPY package*.json ./
 
-# Install all dependencies (including dev)
+# Install all dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy rest of the code
 COPY . .
 
 # Expose app port
 EXPOSE 3000
 
-# Start the app using tsx (no build needed)
-CMD ["npx", "tsx", "src/app.ts"]
+# Start via custom script
+CMD ["sh", "./docker-entrypoint.sh"]

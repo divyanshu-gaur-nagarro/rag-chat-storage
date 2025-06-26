@@ -35,7 +35,7 @@ API_KEY=
 ### 🐳 Run Locally Using Docker
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This will:

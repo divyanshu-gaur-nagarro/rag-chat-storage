@@ -104,7 +104,7 @@ export const getMessagesService = async (
       where: { sessionId },
       skip,
       take: limit,
-      orderBy: { createdAt: 'asc' }, // ✅ This line must be present to match the test
+      orderBy: { createdAt: 'asc' }, 
     });
 
     logger.info(`Fetched ${messages.length} messages for session ${sessionId}`);
