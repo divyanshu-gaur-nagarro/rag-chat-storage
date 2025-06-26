@@ -1,33 +1,41 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16
-    container_name: rag-chat-postgres
-    ports:
-      - "5432:5432"
+  db:
+    image: postgres:15
+    container_name: rag_postgres
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: rag_chat
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: unless-stopped
 
-  rag-chat-service:
+  backend:
     build: .
-    container_name: rag-chat-service
+    container_name: rag_backend
+    restart: always
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
-      - /app/node_modules
     env_file:
       - .env
-    command: npx tsx src/app.ts
-    restart: unless-stopped
+    depends_on:
+      - db
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: rag_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
 
 volumes:
   pgdata:

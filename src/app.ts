@@ -7,6 +7,8 @@ import rateLimit from 'express-rate-limit';
 import { setupSwagger } from './utils/swagger';
 import { errorHandler } from './middlewares/errorHandler';
 import logger from './utils/logger';
+import cors from 'cors';
+
 
 dotenv.config();
 
@@ -14,6 +16,7 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 const limiter = rateLimit({
@@ -38,6 +41,11 @@ app.use('/api', apiKeyAuth, sessionRoutes);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  logger.info(`Server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    logger.info(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+
+export default app;

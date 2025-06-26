@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../utils/logger';
 
-export const errorHandler = (
+export function errorHandler(
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  logger.error(`${req.method} ${req.url} - ${err.message}`);
-  res.status(500).json({ error: 'Internal Server Error' });
-};
+): void {
+  const statusCode = err.status || 500;
+  const message = err.message || 'Internal Server Error';
+
+  logger.error(`${req.method} ${req.originalUrl} - ${message}`);
+  res.status(statusCode).json({ error: message });
+}
