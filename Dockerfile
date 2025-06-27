@@ -13,6 +13,9 @@ RUN npm install
 # Copy rest of the code
 COPY . .
 
+# Generate Prisma client
+RUN npx prisma generate
+
 # Expose app port
 EXPOSE 3000
 

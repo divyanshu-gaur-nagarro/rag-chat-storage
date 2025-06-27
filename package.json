@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "start": "tsx src/app.ts",
     "dev": "tsx src/app.ts"
   },
   "keywords": [],
